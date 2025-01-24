@@ -11,18 +11,43 @@
 <body>
     <div class="container">
         <h1>Photo Gallery</h1>
-        <form action="upload.php" method="post" enctype="multipart/form-data">
+        <form action="upload.php" method="POST" enctype="multipart/form-data">
             <input type="text" name="title" placeholder="Photo Title" required>
             <input type="file" name="image" accept="image/*" required>
             <button type="submit">Upload Photo</button>
         </form>
         <hr>
-    </div>
+    
 
-    <div>
-        <h2>Gallery Photo</h2>
+        <div>
+        <h2>Gallery Photos</h2>
         <hr>
-        <h3></h3>
+
+
+        <?php
+            $photo = $conn-> query("SELECT * FROM photos ORDER BY created_at DESC");
+            
+            if ($photo-> num_rows > 0): 
+                while ($row= $photo ->fetch_assoc());
+            // else: echo "No Photos uploaded yet";
+            // exit;
+        ?>
+
+        <h3><?php echo $row['title'];?></h3>
+        
+        <img src="<?php $row['image_path'];?>" alt="image" width="220px">
+        <form action="delete.php" method="POST">
+            <input type="hidden" name="id" value="<?php $row['id'];?>">
+            <button type="submit">Delete Image</button>
+        </form>      
+        </div>
+        <?php
+            // endwhile;
+            else:
+                echo "No photos uploaded yet!";
+            endif;
+            ?>
+       
     </div>
     
     
