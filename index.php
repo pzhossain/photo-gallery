@@ -19,34 +19,35 @@
         <hr>
     
 
-        <div>
+      <!-- <div>   -->
         <h2>Gallery Photos</h2>
         <hr>
 
-
-        <?php
-            $photo = $conn-> query("SELECT * FROM photos ORDER BY created_at DESC");
-            
-            if ($photo-> num_rows > 0): 
-                while ($row= $photo ->fetch_assoc());
-            // else: echo "No Photos uploaded yet";
-            // exit;
-        ?>
-
-        <h3><?php echo $row['title'];?></h3>
         
-        <img src="<?php $row['image_path'];?>" alt="image" width="220px">
-        <form action="delete.php" method="POST">
-            <input type="hidden" name="id" value="<?php $row['id'];?>">
-            <button type="submit">Delete Image</button>
-        </form>      
-        </div>
-        <?php
-            // endwhile;
-            else:
-                echo "No photos uploaded yet!";
-            endif;
-            ?>
+    
+
+<?php
+$photo = $conn->query("SELECT * FROM photos ORDER BY created_at DESC");
+
+if ($photo->num_rows > 0): 
+while ($row = $photo->fetch_assoc()): // Fix the while loop syntax
+?>
+<div>
+<h3><?php echo htmlspecialchars($row['title']); ?></h3>
+<img src="<?php echo htmlspecialchars($row['image_path']); ?>" alt="image" width="220px">
+<form action="delete.php" method="POST">
+<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
+<button type="submit">Delete Image</button>
+</form>
+</div>
+<?php
+endwhile; // Close the while loop properly
+else:
+echo "No photos uploaded yet!";
+endif;
+?>
+
+
        
     </div>
     
